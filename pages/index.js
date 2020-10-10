@@ -1,26 +1,25 @@
 import Head from 'next/head'
-import React, { useEffect } from 'react';
-import styles from '../styles/Home.module.css'
-import { useAuth } from '../lib/auth'
+import React, { Fragment, useEffect } from 'react';
+import { useAuth } from '@/lib/auth'
+import { Heading, Button, Text } from '@chakra-ui/core';
 
 export default function Home() {
   const auth = useAuth();
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Wisdom's Forest</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <div>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
+      <main>
+        <Heading>
           Wisdom's Forest
-        </h1>
-
-        <button onClick={(e) => auth.signInWithGithub()}>sign in with Github</button>
-        <div>{auth?.user?.email}</div>
-        <button onClick={(e) => auth.signOut()}>sign out</button>
+        </Heading>
+        {auth?.user ?
+          <Fragment>
+            <Text>Logged in with {auth.user.email}</Text>
+            <Button onClick={(e) => auth.signOut()}>sign out</Button>
+          </Fragment> :
+          <Button onClick={(e) => auth.signInWithGithub()}>sign in with Github</Button>
+        }
 
 
       </main>
